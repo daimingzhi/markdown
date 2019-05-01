@@ -189,10 +189,30 @@ protected <T> T doExecute(URI url, @Nullable HttpMethod method, @Nullable Reques
     }
 ```
 
-它会获取一个`ClientHttpRequestFactory`,然后构建一个`ClientHttpRequest`对象，我们可以看到默认会采用`SimpleClientHttpRequestFactory`，代码如下：
+它会获取一个`ClientHttpRequestFactory`,然后构建一个`ClientHttpRequest`对象，代码如下：
 
 ```java
- private ClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+ public ClientHttpRequestFactory getRequestFactory() {
+        List<ClientHttpRequestInterceptor> interceptors = this.getInterceptors();
+        if (!CollectionUtils.isEmpty(interceptors)) {
+            ClientHttpRequestFactory factory = this.interceptingRequestFactory;
+            if (factory == null) {
+                factory = new InterceptingClientHttpRequestFactory(super.getRequestFactory(), interceptors);
+                this.interceptingRequestFactory = (ClientHttpRequestFactory)factory;
+            }
+
+            return (ClientHttpRequestFactory)factory;
+        } else {
+            return super.getRequestFactory();
+        }
+    }
+```
+
+```java
+   public ClientHttpRequestFactory getRequestFactory() {
+        return this.requestFactory;
+    }
+
 ```
 
 如果我们要配置不同的工厂要怎么配置呢？我们可以通过`org.springframework.boot.web.client.RestTemplateBuilder`对象，例如，我们要以okHttpClient作为RestTemplate的底层实现
