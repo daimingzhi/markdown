@@ -222,3 +222,72 @@ java.lang.RuntimeException: 出错
 
 ​	在HystrixComman实现的run()方法中抛出异常时，除了HystrixBadRequestException之外，其他异常均会被Hystrix认为命令执行失败并触发服务降级的处理逻辑，所以当需要在命令执行中抛出不触发服务降级的异常时来使用它。
 
+​	而在使用注册配置实现Hystrix命令时，它还支持忽略指定异常类型功能，只需要通过设置`@HystrixCommand`注解的ignoreException参数，比如：
+
+```java
+public class Demo01 {
+    @HystrixCommand(ignoreExceptions = ArithmeticException.class)
+    public String test() {
+        // do something 
+        return "hello";
+    }
+}
+```
+
+​	如上面代码的定义，当方法抛出了类型为BadRequestException的异常时，Hystrix会将他包装在HystrixBadRequestException中抛出，这样就不会触发后续的fallback逻辑。
+
+###### 异常获取：
+
+​	当Hystrix命令因为异常进入服务降级逻辑之后，往往需要对不同异常做针对性的处理，那么我们如何来获取当前抛出的异常呢？
+
+​	在以传统继承方式实现的Hystrix命令中，我们可以用getFallback()方法通过getExecutionException()方法来获取具体的异常，通过判断来进入不同的处理逻辑。
+
+​	除了传统的实现方式之外，注解配置也同样可以实现异常的获取。它的实现也非常简单，只需要在fallback实现方法的参数中增加对Throwable e对象的定义，这样在方法内部就可以获取触发服务降级的具体异常内容了。比如：
+
+```java
+public class Demo01 {
+    @HystrixCommand(fallbackMethod = "fallback", ignoreExceptions = ArithmeticException.class)
+    public String test() {
+        // do something
+        return "hello";
+    }
+
+    public void fallback(Throwable throwable) {
+        System.out.println(throwable.getMessage());
+    }
+}
+```
+
+###### 命令名称，分组以及线程池划分：
+
+​	以继承方式实现的Hystrix命令使用类名作为默认的命令，我们也可以在构造函数中通过Setter静态类来设置，比如：
+
+```java
+public class Demo02 extends HystrixCommand {
+    @Override
+    protected Object run() throws Exception {
+        return null;
+    }
+
+    protected Demo02() {
+        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("groupCode"))
+                .andCommandKey(HystrixCommandKey.Factory.asKey("commandName"))
+//                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("threadPoolName"))
+        )
+        ;
+    }
+}
+```
+
+​	从上面Setter的使用中可以看到，我们并没有直接设置命令名称，而是先调用了withGroupKey来设置命令组名，然后才通过andCommanKey来设置命令。这是因为在Setter的定义中，只有withGroupKey静态函数可以创建Setter实例，所以GroupKey是每个Setter必须的参数，而CommandKey则是一个可选参数。
+
+​	通过设置命令组，Hystrix根据组来组织和统计命令的告警，仪表盘等信息。那么为什么一定要设置命令组呢？因为除了根据组能实现统计之外，Hystrix会让相同组名的命令使用同一个线程池，所以我们需要在创建Hystrix命令时为其指定命令组名来实现默认线程池划分。
+
+​	如果线程池分配仅仅依靠命令组来划分，那么它就显得不够灵活了，所以Hystrix还提供了HystrixThreadKey来对线程池进行设置，通过它我们可以实现更细粒度的线程池划分。
+
+​	如果在没有特别指定HystrixThreadPoolKey的情况下，依然会使用命令组的方式来划分线程池。通常情况下，尽量通过HystrixThreadPoolKey的方式来指定线程池的划分，而不是通过组名的默认方式实现划分，因为多个不同的命令可能从业务逻辑上来看属于同一个组，但是往往从实现本身来看需要跟其他命令进行隔离。
+
+​	上面已经介绍了如何为通过继承实现的HystrxCommand设置命令名称，分组，以及线程池划分。那么当我们使用 @HystrixCommand注解的时候，又该如何设置呢？只需要设置@HystrixCommand注解的commandKey,groupKey以及threadPoolKey属性即可。
+
+
+
