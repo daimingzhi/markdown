@@ -2477,3 +2477,6 @@
 [0629/083847:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
 [0629/134012:INFO:exception_record.cc(518)] [QB]Process ID: 13840 Type: 2
 [0629/134015:INFO:http_cache_transaction.cc(72)] IgnoreZeroCacheError: 0
+[0630/174341:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0630/174901:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0630/175102:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
