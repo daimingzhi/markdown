@@ -1,6 +1,6 @@
-java读源码之 Queue源码分析（PriorityQueue）
+java读源码之 Queue源码分析（ArrayDeque）
 
-> 除了并发应用（并发包下的代码我之后会专门写），Queue在JavaSE5中仅有的两个实现是LinkedList和PriorityQueue，它们的差异在于排序行为而不是性能。LinkedList在之前我们已经介绍过了，LinkedList作为队列使用时，也是调用它的add等方法，来维护队列先进先出的特性罢了，这里就不多赘述了，这篇文章主要介绍下PriorityQueue，也就是优先级队列
+> 除了并发应用（并发包下的代码我之后会专门写），Queue在JavaSE5中仅有的两个实现是LinkedList和PriorityQueue，它们的差异在于排序行为而不是性能。1.6时新增了一个实现ArrayDeque，LinkedList在之前我们已经介绍过了，LinkedList作为队列使用时，也是调用它的add等方法，来维护队列先进先出的特性罢了，这里就不多赘述了，这篇文章主要介绍下ArrayDeque，也就是优先级队列
 
 [TOC]
 
@@ -14,9 +14,7 @@ public class PriorityQueue<E> extends AbstractQueue<E>
 我们可以看到，它主要就是继承了一个AbstractQueue，我们再看下AbstractQueue的继承关系：
 
 ```java
-public abstract class AbstractQueue<E>
-    extends AbstractCollection<E>
-    implements Queue<E>
+public interface Deque<E> extends Queue<E> 
 ```
 
 AbstractCollection这个类就不多说了，封装了集合类的一些通用方法，我们主要看下Queue接口
@@ -53,16 +51,20 @@ public interface Queue<E> extends Collection<E> {
 ##### 构造函数分析：
 
 ```java
+// 空参构造，就是创建了一个长度为16的数组
 public ArrayDeque() {
     elements = new Object[16];
 }
 
 public ArrayDeque(int numElements) {
+    // 根据参数创建一个合适容量的数组
     allocateElements(numElements);
 }
 
 public ArrayDeque(Collection<? extends E> c) {
+    // 根据参数创建一个合适容量的数组
     allocateElements(c.size());
+    // 再将集合中的元素全部添加到队列
     addAll(c);
 }
 ```
