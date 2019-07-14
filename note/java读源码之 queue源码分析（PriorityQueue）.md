@@ -307,8 +307,6 @@ Task{priority=5, taskName='learn js'}
 
 　　initFromPriorityQueue即从另外一个优先级队列构造一个新的优先级队列，此时内部的数组元素不需要进行调整，只需要将原数组元素都复制过来即可。但是从其他非PriorityQueue的集合中构造优先级队列时，需要先将元素复制过来后再进行调整，此时调用的是heapify方法：
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
 ```java
     private void heapify() {
         // 从最后一个非叶子节点开始从下往上调整
