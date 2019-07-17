@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="ProjectResources">
+    <resource url="http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" location="$USER_HOME$/Desktop/资料/约束/spring-beans-4.0.xsd" />
+    <resource url="http://www.springframework.org/schema/context/spring-context-4.0.xsd" location="$USER_HOME$/Desktop/资料/约束/spring-context-4.0.xsd" />
+    <resource url="http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd" location="$USER_HOME$/Desktop/资料/约束/spring-mvc-4.0.xsd" />
+    <resource url="http://www.springframework.org/schema/security" location="$USER_HOME$/Desktop/resources/schema/schemas/spring-security.xsd" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>
