@@ -7460,3 +7460,18 @@
 [0721/185814:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
 [0721/190041:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
 [0721/190054:WARNING:dns_config_service_win.cc(674)] Failed to read DnsConfig.
+[0723/094907:INFO:exception_record.cc(518)] [QB]Process ID: 19748 Type: 2
+[0723/210310:INFO:exception_record.cc(518)] [QB]Process ID: 22640 Type: 2
+[0724/135855:INFO:exception_record.cc(518)] [QB]Process ID: 9972 Type: 2
+[0724/170611:INFO:exception_record.cc(518)] [QB]Process ID: 20604 Type: 2
+[0725/095847:INFO:exception_record.cc(518)] [QB]Process ID: 20300 Type: 2
+[0725/100828:INFO:exception_record.cc(518)] [QB]Process ID: 8996 Type: 2
+[0725/102647:INFO:exception_record.cc(518)] [QB]Process ID: 9828 Type: 2
+[0725/102731:WARNING:audio_sync_reader.cc(132)] AudioSyncReader::Read timed out, audio glitch count=1
+[0725/105244:INFO:exception_record.cc(518)] [QB]Process ID: 21840 Type: 2
+[0725/110541:INFO:exception_record.cc(518)] [QB]Process ID: 7448 Type: 2
+[0725/134348:INFO:exception_record.cc(518)] [QB]Process ID: 22972 Type: 2
+[0725/184859:INFO:exception_record.cc(518)] [QB]Process ID: 19760 Type: 2
+[0726/135909:INFO:exception_record.cc(518)] [QB]Process ID: 23896 Type: 2
+[0726/181632:INFO:exception_record.cc(518)] [QB]Process ID: 128 Type: 2
+[0726/181646:INFO:exception_record.cc(518)] [QB]Process ID: 27624 Type: 2
